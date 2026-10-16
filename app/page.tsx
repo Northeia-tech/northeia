@@ -1,6 +1,4 @@
 'use client'
-
-
 const ArrowUpRight = ({ className = '' }: { className?: string }) => (
   <svg
     aria-hidden="true"
