@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
-// @ts-expect-error - Tell the compiler to ignore the CSS module missing error
 import "./index.css";
 
 const siteUrl = 'https://northeia.com.br'
