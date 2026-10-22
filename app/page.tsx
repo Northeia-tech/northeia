@@ -1,4 +1,12 @@
 'use client'
+
+import { useEffect } from 'react'
+
+const HUBSPOT_PORTAL_ID = '52168789'
+const HUBSPOT_FORM_ID = 'a9d6c991-0dc6-408c-8f83-809ba9e81a6c'
+const HUBSPOT_REGION = 'na1'
+const HUBSPOT_SCRIPT_SRC = `https://js.hsforms.net/forms/embed/${HUBSPOT_PORTAL_ID}.js`
+
 const ArrowUpRight = ({ className = '' }: { className?: string }) => (
   <svg
     aria-hidden="true"
@@ -85,6 +93,7 @@ const process = [
 ]
 
 export default function App() {
+  // Animações de entrada (reveal)
   useEffect(() => {
     const elements = document.querySelectorAll<HTMLElement>('[data-reveal]')
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -108,6 +117,17 @@ export default function App() {
 
     elements.forEach((element) => observer.observe(element))
     return () => observer.disconnect()
+  }, [])
+
+  // Carrega o script do formulário do HubSpot (uma única vez).
+  // Um <script> dentro do JSX não é executado pelo React, por isso é injetado aqui.
+  useEffect(() => {
+    if (document.querySelector(`script[src="${HUBSPOT_SCRIPT_SRC}"]`)) return
+
+    const script = document.createElement('script')
+    script.src = HUBSPOT_SCRIPT_SRC
+    script.defer = true
+    document.body.appendChild(script)
   }, [])
 
   return (
@@ -387,23 +407,30 @@ export default function App() {
             <div className="cta-lines absolute inset-0 opacity-30" />
             <div data-reveal className="relative mx-auto max-w-[1200px]">
               <p className="text-xs font-medium uppercase tracking-[.18em]">O próximo passo</p>
-              <div className="mt-8 grid gap-10 lg:grid-cols-[1.3fr_.7fr] lg:items-end">
-                <h2 className="max-w-4xl text-5xl leading-[.95] tracking-[-0.06em] md:text-8xl">
-                  Existe um caminho. Vamos encontrá-lo.
-                </h2>
-                <div className="lg:justify-self-end">
-                  <p className="max-w-sm leading-relaxed text-[#102F32]/70">
+              <div className="mt-8 grid gap-12 lg:grid-cols-[1.05fr_.95fr] lg:items-start">
+                <div>
+                  <h2 className="max-w-4xl text-5xl leading-[.95] tracking-[-0.06em] md:text-7xl lg:text-8xl">
+                    Existe um caminho. Vamos encontrá-lo.
+                  </h2>
+                  <p className="mt-8 max-w-sm leading-relaxed text-[#102F32]/70">
                     Conte-nos o que parece sem saída. A primeira conversa pode revelar uma nova direção.
                   </p>
                   <a
-                    href="mailto:contato@northeia.com.br"
-                    className="group mt-8 flex w-fit items-center gap-6 rounded-full bg-[#102F32] py-2 pl-6 pr-2 text-sm text-white transition-transform hover:-translate-y-0.5"
+                    href="mailto:northeia.tech@gmail.com"
+                    className="mt-6 inline-block border-b border-[#102F32]/40 pb-1 text-sm text-[#102F32]/80 transition-colors hover:border-[#102F32] hover:text-[#102F32]"
                   >
-                    Falar com a Northeia
-                    <span className="grid h-11 w-11 place-items-center rounded-full bg-white text-[#102F32]">
-                      <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                    </span>
+                    Ou escreva para northeia.tech@gmail.com
                   </a>
+                </div>
+
+                {/* Formulário HubSpot */}
+                <div className="rounded-[1.5rem] bg-[#F3F0E9] p-6 shadow-[0_30px_80px_-30px_rgba(16,47,50,.45)] md:p-8">
+                  <div
+                    className="hs-form-frame"
+                    data-region={HUBSPOT_REGION}
+                    data-form-id={HUBSPOT_FORM_ID}
+                    data-portal-id={HUBSPOT_PORTAL_ID}
+                  />
                 </div>
               </div>
             </div>
@@ -433,4 +460,3 @@ export default function App() {
     </div>
   )
 }
-import { useEffect } from 'react'
