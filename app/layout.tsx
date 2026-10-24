@@ -1,6 +1,15 @@
 import type { Metadata, Viewport } from 'next'
+import { Newsreader } from 'next/font/google'
 import './globals.css'
-import "./index.css";
+import './index.css'
+
+// Fonte serifada do nome "Northeia" (usada via var(--font-wordmark) no page.tsx)
+const wordmark = Newsreader({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  variable: '--font-wordmark',
+  display: 'swap',
+})
 
 const siteUrl = 'https://northeia.com.br'
 const title = 'Northeia — Estratégia, dados & tecnologia'
@@ -59,7 +68,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" className={wordmark.variable}>
       <body>{children}</body>
     </html>
   )
