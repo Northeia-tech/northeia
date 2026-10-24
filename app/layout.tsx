@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Newsreader } from 'next/font/google'
+import CookieConsent from './_components/CookieConsent'
 import './globals.css'
 import './index.css'
 
@@ -69,7 +70,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className={wordmark.variable}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <CookieConsent />
+      </body>
     </html>
   )
 }

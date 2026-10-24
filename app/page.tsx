@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import { CookieSettingsButton } from './_components/CookieConsent'
 
 const HUBSPOT_PORTAL_ID = '52168789'
 const HUBSPOT_FORM_ID = 'a9d6c991-0dc6-408c-8f83-809ba9e81a6c'
@@ -492,6 +493,7 @@ export default function App() {
               >
                 Termos de Uso
               </a>
+              <CookieSettingsButton className="border-b border-white/25 pb-1 transition-colors hover:border-white hover:text-white" />
             </nav>
           </div>
           <div className="pt-6 text-center text-[10px] uppercase tracking-[.16em] text-white/30">

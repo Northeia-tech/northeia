@@ -115,8 +115,13 @@ export default function PoliticaDePrivacidade() {
           de ferramentas como o HubSpot.
         </p>
         <p>
-          Você pode bloquear ou apagar cookies a qualquer momento nas configurações do seu navegador. Isso pode
-          afetar algumas funcionalidades, como o preenchimento do formulário.
+          Cookies de análise e de rastreamento só são ativados depois que você os aceita no aviso exibido na sua
+          primeira visita. Você pode recusá-los (“Apenas essenciais”) e mudar de decisão a qualquer momento pelo link
+          “Preferências de cookies”, no rodapé da página inicial.
+        </p>
+        <p>
+          Você também pode bloquear ou apagar cookies nas configurações do seu navegador. Isso pode afetar algumas
+          funcionalidades, como o preenchimento do formulário.
         </p>
       </Section>
 
