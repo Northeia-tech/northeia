@@ -5,6 +5,8 @@ import Brand from './_components/Brand'
 import ScrollStory from './_components/ScrollStory'
 import ScrollDirector from './_components/ScrollDirector'
 import Words from './_components/Words'
+import JourneyCompass from './_components/JourneyCompass'
+import CompassGraphic from './_components/CompassGraphic'
 import ContactForm from './_components/ContactForm'
 import { CookieSettingsButton } from './_components/CookieConsent'
 
@@ -107,6 +109,7 @@ export default function App() {
     <div className="home-page min-h-screen overflow-hidden bg-[#F6F6F1] text-[#102F32]">
       <a href="#conteudo" className="skip-link">Pular para o conteúdo</a>
       <ScrollDirector />
+      <JourneyCompass />
       <header className="absolute inset-x-0 top-0 z-50">
         <div className="mx-auto flex max-w-[1320px] items-center justify-between px-6 py-6 md:px-10 lg:px-16">
           <a href="#inicio" className="flex items-center gap-3 text-[#BCD2C9]" aria-label="Northeia — início" onClick={() => setMenuOpen(false)}>
@@ -174,18 +177,8 @@ export default function App() {
             </div>
 
             <div className="hero-visual relative flex items-center justify-center" aria-hidden="true">
-              <div className="compass-visual relative aspect-square w-[min(40vw,580px)]">
-                <div className="absolute inset-[8%] animate-[spin_70s_linear_infinite] rounded-full border border-white/15" />
-                <div className="absolute inset-[20%] rounded-full border border-dashed border-white/16" />
-                <div className="absolute inset-[32%] rounded-full border border-white/15" />
-                <div className="absolute left-1/2 top-0 h-full w-px bg-gradient-to-b from-transparent via-white/30 to-transparent" />
-                <div className="absolute left-0 top-1/2 h-px w-full bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-                <div className="absolute left-1/2 top-1/2 h-[45%] w-20 origin-bottom -translate-x-1/2 -translate-y-full rotate-[28deg]">
-                  <div className="h-full w-full [clip-path:polygon(50%_0,100%_100%,50%_78%,0_100%)] bg-[#C4E68B]" />
-                </div>
-                <div className="compass-south" />
-                <div className="absolute left-1/2 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-4 border-[#C4E68B] bg-[#0B171E]" />
-                <span className="absolute left-1/2 top-[3%] -translate-x-1/2 text-xs tracking-[0.3em] text-white/50">N</span>
+              <div className="compass-visual relative aspect-square w-[min(40vw,580px)]" data-compass-slot data-compass-tone="dark">
+                <CompassGraphic className="compass-static" />
                 <span className="absolute bottom-[3%] left-1/2 -translate-x-1/2 text-xs tracking-[0.3em] text-white/30">S</span>
                 <span className="absolute left-[3%] top-1/2 -translate-y-1/2 text-xs tracking-[0.3em] text-white/30">O</span>
                 <span className="absolute right-[3%] top-1/2 -translate-y-1/2 text-xs tracking-[0.3em] text-white/30">L</span>
@@ -207,11 +200,12 @@ export default function App() {
 
         <section id="atuacao" className="px-6 py-24 md:px-10 md:py-32 lg:px-16">
           <div className="mx-auto max-w-[1192px]">
-            <div data-reveal className="grid gap-8 md:grid-cols-2 md:items-end">
+            <div data-reveal className="relative grid gap-8 md:grid-cols-2 md:items-end">
               <div>
                 <p className="section-label">Como ajudamos</p>
                 <h2 className="mt-6 text-5xl leading-none tracking-[-0.055em] md:text-7xl">O que está travando o seu próximo passo?</h2>
               </div>
+              <div className="atuacao-compass compass-slot-optional" data-compass-slot data-compass-tone="light" aria-hidden="true" />
               <p className="max-w-md text-base leading-relaxed text-[#102F32]/60 md:justify-self-end">
                 Do diagnóstico à implementação, o trabalho parte do seu desafio. Estas são algumas das situações em que podemos ajudar.
               </p>
@@ -297,6 +291,7 @@ export default function App() {
                   Primeiro entender.<br />Depois construir.
                 </h2>
                 <p className="mt-7 max-w-sm text-base leading-relaxed text-[#102F32]/70">Alinhamos o problema, as prioridades e o escopo antes de começar a implementação. Você entende o que será feito e por quê.</p>
+                <div className="section-compass compass-slot-optional mt-12" data-compass-slot data-compass-tone="light" aria-hidden="true" />
               </div>
               <div className="process-steps relative border-t border-[#102F32]/20">
                 <span className="process-rail" aria-hidden="true"><span className="process-rail-fill" /></span>
@@ -327,6 +322,7 @@ export default function App() {
                 <p className="mt-8 max-w-xs text-sm leading-relaxed text-white/45">
                   Uma organização construída para investigar, compreender e transformar.
                 </p>
+                <div className="section-compass compass-slot-optional mt-12" data-compass-slot data-compass-tone="dark" aria-hidden="true" />
               </div>
               <div>
                 <blockquote className="manifesto-quote max-w-4xl font-serif text-4xl leading-[1.16] tracking-[-0.035em] text-[#E7E9DF] md:text-6xl">
@@ -402,6 +398,7 @@ export default function App() {
                   >
                     Ou escreva para northeia.tech@gmail.com
                   </a>
+                  <div className="section-compass compass-slot-optional mt-12" data-compass-slot data-compass-tone="light" aria-hidden="true" />
                 </div>
 
                 {/* Formulário HubSpot */}
@@ -459,6 +456,7 @@ export default function App() {
             </nav>
           </div>
           <div className="pt-6 text-center text-[10px] uppercase tracking-[.16em] text-white/30">
+            <div className="footer-compass compass-slot-optional" data-compass-slot data-compass-tone="dark" aria-hidden="true" />
             <span>Direção através da verdade.</span>
           </div>
         </div>

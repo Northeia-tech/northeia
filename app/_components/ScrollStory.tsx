@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import Words from './Words'
+import CompassGraphic from './CompassGraphic'
 import { MEDIA, isConstrained, loadGsap } from './motion'
 
 const chapters = [
@@ -9,13 +10,6 @@ const chapters = [
   { number: '02', label: 'Direcionar', title: 'Quando os pontos se conectam,\no norte aparece.', text: 'Transformamos dados em entendimento. O que importa fica visível, e as prioridades deixam de disputar a sua atenção.', detail: 'Da informação à decisão.' },
   { number: '03', label: 'Construir', title: 'Direção só faz sentido\nquando vira movimento.', text: 'Sistemas, integrações e automações colocam a estratégia em prática. Uma mudança de cada vez, conectada ao seu negócio.', detail: 'Da decisão à execução.' },
 ]
-
-// Deterministic, rounded positions keep server and client markup identical.
-const round = (n: number) => Math.round(n * 100) / 100
-const points = Array.from({ length: 18 }, (_, i) => {
-  const angle = (i / 18) * Math.PI * 2
-  return { x: round(300 + Math.cos(angle) * 170), y: round(300 + Math.sin(angle) * 170), dx: round(Math.sin(i * 7.3) * 120), dy: round(Math.cos(i * 4.7) * 110) }
-})
 
 export default function ScrollStory() {
   const root = useRef<HTMLElement>(null)
@@ -60,31 +54,16 @@ export default function ScrollStory() {
           ScrollTrigger.create({ trigger: chapter, start: 'top center', end: 'bottom center', toggleClass: { targets: q('.story-readout span')[index], className: 'is-active' } })
         })
 
-        // The instrument tells the same three beats: scattered signals → north → path.
+        // The travelling compass (JourneyCompass) tells the three beats; this panel tracks progress.
         const instrument = gsap.timeline({
           defaults: { ease: 'none' },
-          scrollTrigger: desktop
-            ? { trigger: q('.story-chapters')[0], start: 'top center', end: 'bottom center', scrub: 0.6, invalidateOnRefresh: true }
-            : { trigger: q('.story-visual')[0], start: 'top 85%', end: 'bottom 15%', scrub: 0.6, invalidateOnRefresh: true },
+          scrollTrigger: { trigger: q('.story-chapters')[0], start: 'top center', end: 'bottom center', scrub: 0.6, invalidateOnRefresh: true },
         })
         instrument.fromTo(q('.story-progress-fill'), { scaleX: 0 }, { scaleX: 1, duration: 3 }, 0)
-        if (full) {
-          // Pivot both around the compass centre (300,300 in the viewBox).
-          gsap.set(q('.story-orbits'), { transformOrigin: '50% 50%' })
-          gsap.set(q('.story-needle'), { transformOrigin: '50% 54.55%' })
-          instrument.fromTo(q('.story-point'), { x: (i: number) => points[i].dx, y: (i: number) => points[i].dy, opacity: 0.3 }, { x: 0, y: 0, opacity: 1, duration: 1.1 }, 0)
-          instrument.fromTo(q('.story-orbits'), { rotation: -35, scale: 0.78, opacity: 0.2 }, { rotation: 0, scale: 1, opacity: 1, duration: 1.1 }, 0)
-          instrument.fromTo(q('.story-needle'), { rotation: -125, opacity: 0, scale: 0.65 }, { rotation: 0, opacity: 1, scale: 1, duration: 0.8 }, 1)
-          instrument.to(q('.story-orbits'), { scale: 1.08, rotation: 35, opacity: 0.35, duration: 1 }, 2)
-          instrument.to(q('.story-point'), { opacity: 0.2, duration: 0.8 }, 2)
-          instrument.to(q('.story-needle'), { scale: 0.5, y: -100, duration: 0.9 }, 2)
-          instrument.fromTo(q('.story-path'), { strokeDashoffset: 1, opacity: 0 }, { strokeDashoffset: 0, opacity: 1, duration: 0.9 }, 2.05)
-          instrument.fromTo(q('.story-milestone'), { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, stagger: 0.15, duration: 0.4, transformOrigin: 'center' }, 2.15)
-          // Depth: halo and coordinate drift at different speeds from the instrument.
+        if (full && desktop) {
+          // Depth: halo and coordinate drift at different speeds from the compass.
           instrument.fromTo(q('.story-halo'), { y: -40, scale: 0.9 }, { y: 50, scale: 1.15, duration: 3 }, 0)
           instrument.fromTo(q('.story-coordinate'), { y: 30 }, { y: -30, duration: 3 }, 0)
-        } else {
-          instrument.fromTo(q('.story-orbits'), { opacity: 0.25 }, { opacity: 0.9, duration: 3 }, 0)
         }
 
         // Act III — the conclusion grows into place, then lingers while the next section slides over it.
@@ -105,6 +84,7 @@ export default function ScrollStory() {
         <div className="story-intro-stage">
           <div className="story-intro-rings" aria-hidden="true"><span /><span /><span /></div>
           <div className="story-intro-copy">
+            <div className="story-intro-compass compass-slot-optional" data-compass-slot data-compass-tone="dark" aria-hidden="true" />
             <p className="section-label">A perspectiva muda tudo</p>
             <p className="story-statement">
               <Words text="Seu negócio tem um próximo passo." />
@@ -118,28 +98,9 @@ export default function ScrollStory() {
         <div className="story-visual" aria-hidden="true">
           <div className="story-halo" />
           <span className="story-coordinate">N / 01 — 03</span>
-          <svg className="story-instrument" viewBox="0 0 600 600" fill="none">
-            <defs>
-              <linearGradient id="story-needle-gradient" x1="270" y1="150" x2="320" y2="400" gradientUnits="userSpaceOnUse"><stop stopColor="#e5f6c9" /><stop offset="1" stopColor="#789b79" /></linearGradient>
-            </defs>
-            <g className="story-orbits" stroke="#c4e68b">
-              <circle cx="300" cy="300" r="235" strokeOpacity=".13" />
-              <circle cx="300" cy="300" r="210" strokeOpacity=".4" strokeDasharray="1 12" />
-              <circle cx="300" cy="300" r="170" strokeOpacity=".25" />
-              <circle cx="300" cy="300" r="112" strokeOpacity=".3" />
-              <path d="M300 45v510M45 300h510" strokeOpacity=".16" strokeDasharray="3 8" />
-              <path d="M65 300a235 235 0 0 1 235-235" strokeOpacity=".8" />
-            </g>
-            {points.map((point, i) => <circle className="story-point" key={i} cx={point.x} cy={point.y} r={i % 3 === 0 ? 4 : 2} fill={i % 3 === 0 ? '#c4e68b' : '#8ba798'} />)}
-            <path className="story-path" d="M150 460H240V340H360V220H450" pathLength="1" strokeDasharray="1" stroke="#c4e68b" strokeWidth="2" />
-            {[{ x: 150, y: 460 }, { x: 240, y: 340 }, { x: 360, y: 220 }, { x: 450, y: 220 }].map(({ x, y }, i) => <g key={i} className="story-milestone"><circle cx={x} cy={y} r="12" fill="#0b171e" stroke="#c4e68b" /><circle cx={x} cy={y} r="3" fill="#c4e68b" /></g>)}
-            <g className="story-needle">
-              <path d="M300 150 330 300 300 280 270 300Z" fill="url(#story-needle-gradient)" />
-              <path d="M300 425 330 300 300 320 270 300Z" fill="#416258" />
-              <circle cx="300" cy="300" r="8" fill="#e5f6c9" />
-            </g>
-            <text x="300" y="35" textAnchor="middle" fill="#c4e68b" fontSize="12" letterSpacing="3">N</text>
-          </svg>
+          <div className="story-instrument" data-compass-slot data-compass-tone="dark">
+            <CompassGraphic className="compass-static" />
+          </div>
           <div className="story-readout">{chapters.map((chapter) => <span key={chapter.number}>{chapter.label}</span>)}</div>
           <div className="story-progress"><div className="story-progress-fill" /></div>
         </div>

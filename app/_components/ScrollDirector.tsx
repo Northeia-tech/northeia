@@ -30,7 +30,6 @@ export default function ScrollDirector() {
           const hero = gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: '#inicio', start: 'top top', end: 'bottom top', scrub: true } })
           hero.to(q('.hero-copy'), { y: desktop ? -140 : -60, opacity: 0, duration: 1 }, 0)
           hero.to(q('.hero-visual'), { y: desktop ? 120 : 50, duration: 1 }, 0)
-          hero.to(q('.compass-visual'), { rotation: 50, scale: 1.18, duration: 1 }, 0)
           hero.to(q('.hero-grid'), { y: 180, duration: 1 }, 0)
           hero.to(q('.hero-ticker'), { opacity: 0, duration: 0.4 }, 0)
         }
@@ -68,22 +67,6 @@ export default function ScrollDirector() {
         // Pointer micro-interactions — only where a precise pointer exists and the device has headroom.
         const listeners: Array<() => void> = []
         if (desktop && full) {
-          const heroEl = document.querySelector<HTMLElement>('#inicio')
-          const compass = q('.compass-visual')[0]
-          if (heroEl && compass) {
-            gsap.set(compass, { transformPerspective: 900 })
-            const tiltX = gsap.quickTo(compass, 'rotationX', { duration: 0.8, ease: 'power3.out' })
-            const tiltY = gsap.quickTo(compass, 'rotationY', { duration: 0.8, ease: 'power3.out' })
-            const move = (event: PointerEvent) => {
-              const rect = heroEl.getBoundingClientRect()
-              tiltY(((event.clientX - rect.left) / rect.width - 0.5) * 14)
-              tiltX(-((event.clientY - rect.top) / rect.height - 0.5) * 14)
-            }
-            const leave = () => { tiltX(0); tiltY(0) }
-            heroEl.addEventListener('pointermove', move)
-            heroEl.addEventListener('pointerleave', leave)
-            listeners.push(() => { heroEl.removeEventListener('pointermove', move); heroEl.removeEventListener('pointerleave', leave) })
-          }
           (q('[data-magnetic]') as HTMLElement[]).forEach((target) => {
             const x = gsap.quickTo(target, 'x', { duration: 0.5, ease: 'power3.out' })
             const y = gsap.quickTo(target, 'y', { duration: 0.5, ease: 'power3.out' })
