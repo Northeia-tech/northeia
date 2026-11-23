@@ -96,7 +96,7 @@ export default function CookieConsent() {
       role="dialog"
       aria-labelledby="cookie-title"
       aria-describedby="cookie-desc"
-      className="fixed inset-x-3 bottom-3 z-[100] mx-auto max-w-3xl rounded-2xl border border-white/10 bg-[#0B292C]/95 p-5 text-white shadow-[0_20px_60px_-15px_rgba(0,0,0,.6)] backdrop-blur md:inset-x-5 md:bottom-5 md:p-6"
+      className="cookie-banner fixed inset-x-3 bottom-3 z-[100] mx-auto max-w-3xl rounded-2xl border border-white/10 bg-[#0B171E]/95 p-5 text-white shadow-[0_20px_60px_-15px_rgba(0,0,0,.6)] backdrop-blur md:inset-x-5 md:bottom-5 md:p-6"
     >
       <div className="flex flex-col gap-5 md:flex-row md:items-center md:gap-8">
         <div className="flex-1">
@@ -108,7 +108,7 @@ export default function CookieConsent() {
             ele é usado e reconhecer seu contato. Você pode mudar de ideia quando quiser. Saiba mais na nossa{' '}
             <Link
               href="/politica-de-privacidade"
-              className="border-b border-white/30 text-white/85 transition-colors hover:border-[#F4A259] hover:text-white"
+              className="border-b border-white/30 text-white/85 transition-colors hover:border-[#C4E68B] hover:text-white"
             >
               Política de Privacidade
             </Link>
@@ -126,7 +126,7 @@ export default function CookieConsent() {
           <button
             type="button"
             onClick={() => decide('accepted')}
-            className="rounded-full bg-[#F4A259] px-5 py-2.5 text-sm font-medium text-[#102F32] transition-transform hover:-translate-y-0.5"
+            className="rounded-full bg-[#C4E68B] px-5 py-2.5 text-sm font-medium text-[#102F32] transition-transform hover:-translate-y-0.5"
           >
             Aceitar todos
           </button>
