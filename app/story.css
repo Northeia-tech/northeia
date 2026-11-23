@@ -1,0 +1,143 @@
+/* Scrollytelling layer. Native CSS sticky holds the stages (no pin spacers, no scroll hijacking);
+   GSAP only scrubs transforms and opacity. Without JS or with reduced motion, everything reads normally. */
+.home-page { overflow: clip; }
+.home-page main > #abordagem.scroll-story { padding: 0; background: #0b171e; color: #f6f6f1; }
+
+/* Act I — a held statement. */
+.story-intro-stage { position: relative; display: grid; place-items: center; overflow: hidden; padding: 100px 24px 64px; }
+.story-intro-copy { position: relative; max-width: 1080px; width: 100%; text-align: center; will-change: transform, opacity; }
+.story-intro .section-label { justify-content: center; color: #c4e68b; }
+.story-statement { margin-top: 32px; font-size: clamp(2.4rem, 6.4vw, 6.25rem); font-weight: 500; letter-spacing: -.055em; line-height: 1.04; text-wrap: balance; }
+.story-statement > span { display: block; }
+.story-statement-accent { color: #c4e68b; }
+.story-skip { display: inline-flex; align-items: center; gap: 14px; min-height: 44px; margin-top: 40px; font-size: 13px; color: #b7c7bb; border-bottom: 1px solid #b7c7bb40; transition: color .25s, border-color .25s; }
+.story-skip span { transition: transform .3s; }
+.story-intro-rings { position: absolute; left: 50%; top: 50%; width: min(120vmin, 1100px); aspect-ratio: 1; translate: -50% -50%; pointer-events: none; }
+.story-intro-rings span { position: absolute; border-radius: 50%; border: 1px solid #c4e68b1f; }
+.story-intro-rings span:nth-child(1) { inset: 0; }
+.story-intro-rings span:nth-child(2) { inset: 14%; border-style: dashed; border-color: #c4e68b26; }
+.story-intro-rings span:nth-child(3) { inset: 30%; background: radial-gradient(circle, #27433855, transparent 70%); }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* The wrapper provides scroll distance; the stage stays in frame while the words light up. */
+  .story-intro { height: 230svh; }
+  .story-intro-stage { position: sticky; top: 0; height: 100svh; padding-block: 64px; }
+}
+
+/* Act II — sticky instrument beside the chapters. */
+.story-layout { display: grid; grid-template-columns: 1fr 1fr; align-items: start; max-width: 1320px; margin: auto; padding-inline: 64px; gap: 48px; }
+.story-visual { grid-column: 2; grid-row: 1; position: sticky; top: 12svh; height: min(76svh, 650px); display: flex; flex-direction: column; justify-content: center; min-width: 0; isolation: isolate; }
+.story-chapters { grid-column: 1; grid-row: 1; }
+.story-chapter { display: flex; flex-direction: column; justify-content: center; min-height: 90svh; padding-block: 70px; }
+.story-chapter h2 > span { display: block; will-change: transform; }
+.story-kicker { display: flex; align-items: center; gap: 18px; color: #c4e68b; font-size: 11px; text-transform: uppercase; letter-spacing: .18em; }
+.story-kicker > span { display: grid; place-items: center; width: 36px; height: 36px; border: 1px solid #c4e68b40; border-radius: 50%; font-size: 10px; }
+.home-page .story-chapter h2 { margin-top: 28px; font-size: clamp(2.4rem, 4.25vw, 4.2rem); line-height: 1.08; letter-spacing: -.055em; }
+.story-emphasis { color: #b7d5a2; }
+.story-description { max-width: 390px; margin-top: 28px; color: #aebdb7; font-size: 16px; line-height: 1.85; }
+.story-detail { margin-top: 30px; font-size: 12px; letter-spacing: .04em; color: #d3e2cb; }
+.story-halo { position: absolute; inset: 5%; z-index: -1; border-radius: 50%; background: radial-gradient(ellipse, #73936226 0%, #73936208 45%, transparent 70%); pointer-events: none; }
+.story-coordinate { font-size: 10px; letter-spacing: .24em; color: #8ca392; align-self: flex-end; }
+.story-instrument { width: 100%; max-height: 60svh; overflow: visible; }
+.story-readout { display: flex; justify-content: space-between; gap: 12px; font-size: 9px; text-transform: uppercase; letter-spacing: .16em; color: #6f8479; margin: 20px 10% 16px; }
+.story-readout span { transition: color .4s; }
+.story-readout span.is-active { color: #e0f4c4; }
+.story-progress { height: 1px; background: #c4e68b20; margin-inline: 10%; }
+.story-progress-fill { height: 100%; background: #c4e68b; transform-origin: left; }
+.scroll-story:not([data-motion]) .story-readout span, .scroll-story[data-motion='static'] .story-readout span { color: #a6b7aa; }
+
+/* Act III — the conclusion, later covered by the services sheet. */
+.story-outro { padding: 120px 24px 200px; text-align: center; background: linear-gradient(#0b171e, #173031); overflow: hidden; }
+.story-outro-inner { will-change: transform, opacity; }
+.story-outro p { font-size: clamp(2.2rem, 5.6vw, 5.6rem); font-weight: 500; line-height: 1.04; letter-spacing: -.055em; }
+.story-outro p span { color: #c4e68b; }
+.story-outro a { display: inline-flex; gap: 20px; min-height: 44px; align-items: center; margin-top: 35px; font-size: 13px; color: #c6d5c6; transition: color .25s; }
+.story-outro a span { transition: transform .3s; }
+
+/* Services rise over the story like a sheet; the corner radius is scrubbed to 0 on arrival. */
+.home-page #atuacao { z-index: 1; margin-top: -64px; background: linear-gradient(#e8eee6, #f6f6f1 280px); border-radius: 48px 48px 0 0; }
+.service-card { transition: translate .35s cubic-bezier(.2, .7, .2, 1), background-color .35s, color .35s; }
+
+/* Hero: decorative layers are driven by scroll, so CSS keyframes stay off them. */
+.home-page .hero-visual { animation: none; }
+.home-page .compass-visual > .animate-\[spin_70s_linear_infinite\] { animation: none; }
+.hero-copy, .hero-visual, .compass-visual { will-change: transform; }
+
+/* Method rail. */
+.process-rail { position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: #102f321f; }
+.process-rail-fill { position: absolute; inset: 0; background: #718b70; transform-origin: top; }
+.process-step { padding-left: 28px; }
+.process-step h3 { transition: translate .5s cubic-bezier(.2, .7, .2, 1), color .4s; }
+.process-index { transition: color .4s; }
+.process-step.is-active h3 { translate: 6px 0; color: #102f32; }
+.process-step.is-active .process-index { color: #496b45; }
+
+.contact-panel { transform-origin: 50% 100%; }
+
+@media (hover: hover) {
+  .story-skip:hover, .story-outro a:hover { color: #e0f4c4; border-color: #e0f4c4; }
+  .story-skip:hover span { transform: translate(3px, 3px); }
+  .story-outro a:hover span { transform: translateY(4px); }
+  .home-page .project-card { transition: translate .35s cubic-bezier(.2, .7, .2, 1), border-color .35s, box-shadow .35s; }
+  .home-page .project-card:hover { translate: 0 -5px; border-color: #718b70; box-shadow: 0 24px 50px -30px #102f3266; }
+}
+
+/* Touch / small screens: shorter holds, fewer moving layers, normal reading order. */
+@media (max-width: 959px), (max-height: 599px), (pointer: coarse) {
+  .story-layout { display: flex; flex-direction: column; gap: 20px; padding-inline: 24px; }
+  .story-visual { position: relative; top: auto; width: min(100%, 430px); height: auto; margin: 20px auto; }
+  .story-instrument { max-height: 350px; }
+  .story-chapters { width: 100%; }
+  .story-chapter { min-height: 0; padding-block: 48px; border-top: 1px solid #c4e68b20; }
+  .home-page .story-chapter h2 { max-width: 650px; font-size: clamp(2.2rem, 6.5vw, 3.8rem); }
+  .story-description { max-width: 560px; }
+  .story-outro { padding: 80px 24px 140px; }
+  .home-page #atuacao { margin-top: -40px; border-radius: 32px 32px 0 0; }
+}
+@media (prefers-reduced-motion: no-preference) and ((max-width: 959px) or (pointer: coarse)) {
+  .story-intro { height: 170svh; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .story-visual { position: relative; top: auto; }
+  .story-chapter { min-height: 0; padding-block: 45px; }
+  .story-outro { padding-block: 60px 120px; }
+  .story-readout span { color: #a6b7aa; }
+}
+
+/* ——— The travelling compass ———
+   One fixed instrument flies between [data-compass-slot] elements (JourneyCompass.tsx).
+   Static copies inside the main slots cover no-JS and reduced-motion visitors. */
+.compass-static, .journey-compass { --cm: #c4e68b; --cd: #8ba798; --na: #e5f6c9; --nb: #789b79; --ns: #416258; --hub: #0b171e; }
+.compass-graphic { display: block; width: 100%; height: 100%; overflow: visible; }
+.compass-orbits { stroke: var(--cm); stroke-width: var(--line, 1); }
+.compass-point { fill: var(--cd); }
+.compass-point.is-major { fill: var(--cm); }
+.compass-path { stroke: var(--cm); stroke-width: calc(var(--line, 1) * 2); }
+.compass-milestone-ring { fill: var(--hub); stroke: var(--cm); stroke-width: var(--line, 1); }
+.compass-milestone-dot { fill: var(--cm); }
+.compass-stop-a { stop-color: var(--na); }
+.compass-stop-b { stop-color: var(--nb); }
+.compass-needle-south { fill: var(--ns); }
+.compass-hub { fill: var(--na); }
+.compass-north { fill: var(--cm); }
+.compass-static .compass-needle { transform: rotate(28deg); transform-box: view-box; transform-origin: 300px 300px; }
+.compass-static :is(.compass-path, .compass-milestone) { display: none; }
+
+.journey-compass { display: none; position: fixed; left: 0; top: 0; z-index: 30; width: 600px; height: 600px; transform-origin: 0 0; pointer-events: none; will-change: transform; contain: layout style; }
+.journey-compass-tilt { width: 100%; height: 100%; }
+.journey-compass-disc { position: absolute; inset: 30px; border-radius: 50%; background: #0b171ef2; box-shadow: 0 0 0 calc(var(--line, 1) * 1px) #c4e68b40, 0 calc(var(--line, 1) * 8px) calc(var(--line, 1) * 24px) #0b171e55; opacity: 0; }
+.home-page[data-journey] .journey-compass { display: block; }
+.home-page[data-journey] .compass-static { visibility: hidden; }
+.home-page:not([data-journey]) .compass-slot-optional { display: none; }
+
+/* Stops along the way: sized for the space each section leaves free. */
+.hero-visual { position: relative; z-index: 31; }
+.story-instrument { width: min(100%, 60svh); aspect-ratio: 1; margin-inline: auto; }
+.story-intro-compass { width: clamp(76px, 11svh, 128px); aspect-ratio: 1; margin: 0 auto 28px; }
+.atuacao-compass { position: absolute; top: 0; right: 0; width: clamp(64px, 8vw, 112px); aspect-ratio: 1; }
+.section-compass { width: clamp(88px, 9vw, 128px); aspect-ratio: 1; }
+.footer-compass { width: 56px; aspect-ratio: 1; margin: 0 auto 18px; }
+@media (max-width: 767px) {
+  .atuacao-compass { width: 52px; top: -6px; }
+  .section-compass { width: 84px; }
+}

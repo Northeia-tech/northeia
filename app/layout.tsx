@@ -1,8 +1,10 @@
 import type { Metadata, Viewport } from 'next'
-import { Newsreader } from 'next/font/google'
+import { DM_Sans, Instrument_Serif, Newsreader } from 'next/font/google'
 import CookieConsent from './_components/CookieConsent'
 import './globals.css'
-import './index.css'
+
+const sans = DM_Sans({ subsets: ['latin'], variable: '--font-dm-sans', display: 'swap' })
+const editorial = Instrument_Serif({ subsets: ['latin'], weight: '400', variable: '--font-editorial', display: 'swap' })
 
 // Fonte serifada do nome "Northeia" (usada via var(--font-wordmark) no page.tsx)
 const wordmark = Newsreader({
@@ -13,9 +15,9 @@ const wordmark = Newsreader({
 })
 
 const siteUrl = 'https://northeia.com.br'
-const title = 'Northeia — Estratégia, dados & tecnologia'
+const title = 'Northeia — Menos gargalos. Mais clareza para crescer.'
 const description =
-  'Revelamos as causas por trás dos resultados e construímos o caminho para empresas crescerem com direção, inteligência e confiança. Diagnóstico, inteligência de negócio, sistemas e automação.'
+  'Sua empresa perde tempo com tarefas manuais e informações espalhadas? Conectamos consultoria, dados e automação para melhorar sua operação. Converse sobre seu desafio com a Northeia.'
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -60,7 +62,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#0B292C',
+  themeColor: '#0B171E',
 }
 
 export default function RootLayout({
@@ -69,7 +71,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="pt-BR" className={wordmark.variable}>
+    <html lang="pt-BR" className={`${wordmark.variable} ${sans.variable} ${editorial.variable}`}>
       <body>
         {children}
         <CookieConsent />
